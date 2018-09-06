@@ -12,5 +12,5 @@ openssl req \
 	-nodes \
 	-x509 \
 	-subj "/C=UK/ST=SelfSigned/L=UK/O=SelfSigned/CN=$FQDN" \
-	-keyout privkey.pem \
-	-out fullchain.pem
+	-keyout /www/${FQDN}.key \
+	-out /www/${FQDN}.crt

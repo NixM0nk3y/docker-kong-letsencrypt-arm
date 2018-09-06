@@ -22,6 +22,10 @@ deploy_challenge() {
 
     # Simple example: Use nsupdate with local named
     # printf 'server 127.0.0.1\nupdate add _acme-challenge.%s 300 IN TXT "%s"\nsend\n' "${DOMAIN}" "${TOKEN_VALUE}" | nsupdate -k /var/run/named/session.key
+
+    echo;
+    echo "Deploying challenge for domain $DOMAIN filename:$TOKEN_FILENAME value:$TOKEN_VALUE"
+
 }
 
 clean_challenge() {
@@ -35,6 +39,10 @@ clean_challenge() {
 
     # Simple example: Use nsupdate with local named
     # printf 'server 127.0.0.1\nupdate delete _acme-challenge.%s TXT "%s"\nsend\n' "${DOMAIN}" "${TOKEN_VALUE}" | nsupdate -k /var/run/named/session.key
+
+    echo;
+    echo "Cleaning challenge for domain $DOMAIN"
+
 }
 
 deploy_cert() {
@@ -62,6 +70,7 @@ deploy_cert() {
     # Simple example: Copy file to nginx config
     # cp "${KEYFILE}" "${FULLCHAINFILE}" /etc/nginx/ssl/; chown -R nginx: /etc/nginx/ssl
     # systemctl reload nginx
+    echo "Deploying certificate for $DOMAIN from $KEYFILE and $FULLCHAINFILE"
 }
 
 deploy_ocsp() {
@@ -104,6 +113,7 @@ unchanged_cert() {
     #   The path of the file containing the full certificate chain.
     # - CHAINFILE
     #   The path of the file containing the intermediate certificate(s).
+    echo "Certificate for domain $DOMAIN is still valid - no action taken"
 }
 
 invalid_challenge() {
@@ -121,6 +131,7 @@ invalid_challenge() {
 
     # Simple example: Send mail to root
     # printf "Subject: Validation of ${DOMAIN} failed!\n\nOh noez!" | sendmail root
+    echo "Challenge failed!"
 }
 
 request_failure() {
@@ -143,6 +154,7 @@ request_failure() {
 
     # Simple example: Send mail to root
     # printf "Subject: HTTP request failed failed!\n\nA http request failed with status ${STATUSCODE}!" | sendmail root
+    echo "HTTP Request failed!"
 }
 
 generate_csr() {

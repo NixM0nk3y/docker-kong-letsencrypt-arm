@@ -22,12 +22,12 @@ if [ $? -ne 0 ]; then
 	$BASEDIR/generate_self_signed.sh
 fi
 
-ls -l /var/www/dehydrated
+ls -l /www
 
 bold "Uploading certificates to secret..."
-curl -i -X POST ${KONG_GATEWAY}/certificates \
-    -F "cert=@/path/to/cert.pem" \
-    -F "key=@/path/to/cert.key" \
+curl -i -k -X POST ${KONG_GATEWAY}/certificates \
+    -F "cert=@/www/${FQDN}.crt" \
+    -F "key=@/www/${FQDN}.key" \
     -F "snis=${FQDN}"
 
 bold "All done!"

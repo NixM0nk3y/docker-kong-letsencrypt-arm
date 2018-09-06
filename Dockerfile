@@ -18,7 +18,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && git clone https://github.com/lukas2511/dehydrated \
     && cd dehydrated \
     && mkdir hooks \
-    && mkdir -p /var/www/dehydrated \
+    && mkdir /www \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/*
 

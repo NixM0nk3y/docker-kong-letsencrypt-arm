@@ -56,7 +56,7 @@ IP_VERSION=6
 #ACCOUNTDIR="${BASEDIR}/accounts"
 
 # Output directory for challenge-tokens to be served by webserver or deployed in HOOK (default: /var/www/dehydrated)
-WELLKNOWN="/var/www/dehydrated"
+WELLKNOWN="/www"
 
 # Default keysize for private keys (default: 4096)
 KEYSIZE="4096"
@@ -101,7 +101,7 @@ HOOK="/usr/local/bin/dehydrated/hooks/hook.sh"
 #CONTACT_EMAIL=
 
 # Lockfile location, to prevent concurrent access (default: $BASEDIR/lock)
-#LOCKFILE="${BASEDIR}/lock"
+#LOCKFILE="/tmp/lock"
 
 # Option to add CSR-flag indicating OCSP stapling to be mandatory (default: no)
 #OCSP_MUST_STAPLE="no"
