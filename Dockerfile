@@ -10,11 +10,17 @@ RUN apk add --no-cache --virtual .build-deps \
         git \
     && apk add --no-cache \
         python \
+        openssl \
+        bash \
+        ncurses \
         curl \
-    && cd /usr/local/bin
-    && git clone https://github.com/lukas2511/dehydrated
-    && cd dehydrated
-    && mkdir hooks
+    && cd /usr/local/bin \
+    && git clone https://github.com/lukas2511/dehydrated \
+    && cd dehydrated \
+    && mkdir hooks \
+    && mkdir -p /var/www/dehydrated \
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/*
 
 # Add our custom hooks
 COPY hooks/ /usr/local/bin/dehydrated/hooks/

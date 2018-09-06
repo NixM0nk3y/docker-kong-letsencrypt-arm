@@ -8,14 +8,26 @@ echo ""
 
 enforce_arg "CONTACT_EMAIL" "The email address to register the LetsEncrypt certificate"
 enforce_arg "FQDN" "The FQDN to generate certificates for" 
+enforce_arg "KONG_GATEWAY" "Kong endpoint to send certs to" 
+
+if [ ${MISSING_VAR:-0} -eq 1 ]; then
+    bold "Missing Arguments!"
+    exit
+fi
 
 $BASEDIR/generate_le.sh 
+
 if [ $? -ne 0 ]; then
 	bold "LetsEncrypt generation failed!  Will generate a Self Signed certificate instead..."
 	$BASEDIR/generate_self_signed.sh
 fi
 
+ls -l /var/www/dehydrated
+
 bold "Uploading certificates to secret..."
-kubectl create secret tls --dry-run ingress-tls --key /app/data/certs/$FQDN/privkey.pem --cert /app/data/certs/$FQDN/fullchain.pem -o yaml | kubectl apply -f -
+curl -i -X POST ${KONG_GATEWAY}/certificates \
+    -F "cert=@/path/to/cert.pem" \
+    -F "key=@/path/to/cert.key" \
+    -F "snis=${FQDN}"
 
 bold "All done!"

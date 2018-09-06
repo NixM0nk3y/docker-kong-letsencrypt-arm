@@ -12,8 +12,6 @@ You could quite easily fork this and [change this part](scripts/provision.sh#29)
 You need to specify the following environment variables when running the container:
 
   - KONG_GATEWAY
-  - KONG_USER
-  - KONG_PASSWORD
   - CONTACT_EMAIL
   - FQDN
 

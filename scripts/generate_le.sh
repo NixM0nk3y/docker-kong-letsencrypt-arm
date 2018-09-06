@@ -10,4 +10,4 @@ mkdir -p $ACCOUNTDIR
 mkdir -p $CHAINCACHE
 
 dehydrated --register --accept-terms
-dehydrated -d $FQDN -c
+dehydrated --cron --config /app/config --domain $FQDN
