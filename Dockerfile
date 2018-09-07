@@ -14,6 +14,7 @@ RUN apk add --no-cache --virtual .build-deps \
         bash \
         ncurses \
         curl \
+        jq \
     && cd /usr/local/bin \
     && git clone https://github.com/lukas2511/dehydrated \
     && cd dehydrated \

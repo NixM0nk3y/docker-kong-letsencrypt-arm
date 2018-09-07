@@ -49,10 +49,12 @@ clean_challenge() {
     echo;
     echo "Cleaning challenge for domain $DOMAIN"
 
-    ROUTE_ID=$(curl -k -X GET ${KONG_GATEWAY}/services/plugin-letsencrypt/routes | jq '.data[0].id')
+    ROUTE_ID=$(curl -k -X GET ${KONG_GATEWAY}/services/plugin-letsencrypt/routes | jq -r '.data[0].id')
 
+    echo "Cleaning challenge token ${ROUTE_ID}"
     curl -i -k -X DELETE ${KONG_GATEWAY}/routes/${ROUTE_ID}
 
+    echo "Cleaning service"
     curl -i -k -X DELETE ${KONG_GATEWAY}/services/plugin-letsencrypt
 }
 
@@ -81,7 +83,10 @@ deploy_cert() {
     # Simple example: Copy file to nginx config
     # cp "${KEYFILE}" "${FULLCHAINFILE}" /etc/nginx/ssl/; chown -R nginx: /etc/nginx/ssl
     # systemctl reload nginx
+
     echo "Deploying certificate for $DOMAIN from $KEYFILE and $FULLCHAINFILE"
+    curl -i -k -X PUT ${KONG_GATEWAY}/certificates/$DOMAIN -d "cert=$(cat $FULLCHAINFILE)" -d "key=$(cat $KEYFILE)" -d "snis[]=${FQDN}"
+
 }
 
 deploy_ocsp() {

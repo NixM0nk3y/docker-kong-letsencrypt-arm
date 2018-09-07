@@ -80,7 +80,7 @@ OPENSSL="openssl"
 #
 # BASEDIR and WELLKNOWN variables are exported and can be used in an external program
 # default: <unset>
-HOOK="/usr/local/bin/dehydrated/hooks/hook.sh"
+HOOK="/usr/local/bin/dehydrated/hooks/hook_kong.sh"
 
 # Chain clean_challenge|deploy_challenge arguments together into one hook call per certificate (default: no)
 #HOOK_CHAIN="no"
