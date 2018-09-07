@@ -85,7 +85,7 @@ deploy_cert() {
     # systemctl reload nginx
 
     echo "Deploying certificate for $DOMAIN from $KEYFILE and $FULLCHAINFILE"
-    curl -i -k -X PUT ${KONG_GATEWAY}/certificates/$DOMAIN -d "cert=$(cat $FULLCHAINFILE)" -d "key=$(cat $KEYFILE)" -d "snis[]=${FQDN}"
+    curl -i -k -X PUT ${KONG_GATEWAY}/certificates/$DOMAIN --data-urlencode "cert=$(cat $FULLCHAINFILE)" --data-urlencode "key=$(cat $KEYFILE)" -d "snis[]=${FQDN}"
 
 }
 
