@@ -26,6 +26,12 @@ deploy_challenge() {
     echo;
     echo "Deploying challenge for domain $DOMAIN filename:$TOKEN_FILENAME value:$TOKEN_VALUE"
 
+    curl -i -k -X POST ${KONG_GATEWAY}/services/ --data "name=plugin-letsencrypt" --data "url=http://httpbin.org/headers"
+
+    curl -i -k -X POST ${KONG_GATEWAY}/services/plugin-letsencrypt/routes  --data "paths[]=/.well-known/acme-challenge/${TOKEN_FILENAME}"
+
+    curl -i -k -X POST ${KONG_GATEWAY}/services/plugin-letsencrypt/plugins -F "name=pre-function" -F "config.functions=return kong.response.exit(200\, \"${TOKEN_VALUE}\")"
+
 }
 
 clean_challenge() {
@@ -43,6 +49,11 @@ clean_challenge() {
     echo;
     echo "Cleaning challenge for domain $DOMAIN"
 
+    ROUTE_ID=$(curl -k -X GET ${KONG_GATEWAY}/services/plugin-letsencrypt/routes | jq '.data[0].id')
+
+    curl -i -k -X DELETE ${KONG_GATEWAY}/routes/${ROUTE_ID}
+
+    curl -i -k -X DELETE ${KONG_GATEWAY}/services/plugin-letsencrypt
 }
 
 deploy_cert() {

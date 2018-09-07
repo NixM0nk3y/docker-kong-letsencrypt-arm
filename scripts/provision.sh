@@ -18,16 +18,7 @@ fi
 $BASEDIR/generate_le.sh 
 
 if [ $? -ne 0 ]; then
-	bold "LetsEncrypt generation failed!  Will generate a Self Signed certificate instead..."
-	$BASEDIR/generate_self_signed.sh
+	bold "LetsEncrypt generation failed!"
 fi
-
-ls -l /www
-
-bold "Uploading certificates to secret..."
-curl -i -k -X POST ${KONG_GATEWAY}/certificates \
-    -F "cert=@/www/${FQDN}.crt" \
-    -F "key=@/www/${FQDN}.key" \
-    -F "snis=${FQDN}"
 
 bold "All done!"
